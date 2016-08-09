@@ -46,6 +46,11 @@ int allocate_map(void)
     // Initialize numAvailablePids
     pidManager.numAvailablePids = NUM_PIDS;
     
+    // Initialize the PidManager lock
+    status = pthread_mutex_init(&pidManager.lock, NULL);
+    if (status != 0)
+        status = -1;
+    
     return status;
 }
 
