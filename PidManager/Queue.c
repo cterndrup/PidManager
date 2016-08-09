@@ -37,12 +37,13 @@ int construct(Queue *fifo)
  */
 void destruct(Queue *fifo)
 {
+    QNode *q;
+    
     // Sanity check the input pointer
     if (fifo == NULL)
         return;
     
     // Iterate through queue nodes and free them
-    QNode *q;
     for (q = fifo->queue; q != NULL; q = q->next)
     {
         free(q);
@@ -54,12 +55,14 @@ void destruct(Queue *fifo)
  */
 int enqueue(Queue *fifo, int n)
 {
+    QNode *node = NULL;
+    
     // Sanity check the input pointer
     if (fifo == NULL)
         return -1;
     
     // Construct and initialize the new queue node
-    QNode *node = (QNode *)malloc(sizeof(QNode));
+    node = (QNode *)malloc(sizeof(QNode));
     if (node == NULL)
         return -1;
     node->val = n;
@@ -88,6 +91,9 @@ int enqueue(Queue *fifo, int n)
  */
 int dequeue(Queue *fifo)
 {
+    int    n;
+    QNode *front = NULL;
+    
     // Sanity check the input pointer
     if (fifo == NULL)
         return -1;
@@ -100,8 +106,8 @@ int dequeue(Queue *fifo)
     // Remove the node from the front of the queue, deconstruct it,
     // and return its value
     //
-    QNode *front = fifo->queue;
-    int n = front->val;
+    front = fifo->queue;
+    n = front->val;
     fifo->queue = front->next;
     front->next = NULL;
     free(front);

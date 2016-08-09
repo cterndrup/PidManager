@@ -10,6 +10,7 @@
 #define PidManager_h
 
 /* ---------------------- Includes ------------------------------------------ */
+#include <pthread.h>
 #include "Queue.h"
 
 /* ---------------------- Macros and Defines -------------------------------- */
@@ -35,6 +36,9 @@ struct PidManager
     
     // number of available pids
     int numAvailablePids;
+    
+    // Mutex for locking access to availablePids by multiple threads
+    pthread_mutex_t lock;
 };
 
 typedef struct PidManager PidManager;
@@ -47,9 +51,14 @@ typedef struct PidManager PidManager;
 int allocate_map(void);
 
 /*!
+ * Destroys data structure constructed in @ref allocate_map()
+ */
+int destroy_map(void);
+
+/*!
  * Allocates and returns a pid
  */
-int allocate_pid(void);
+void allocate_pid(int *pid);
 
 /*!
  * Releases a pid

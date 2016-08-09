@@ -99,6 +99,7 @@ struct Queue
     Dequeue *dequeue;
     Peek    *peek;
 };
+
 /* ----------------------- Function Prototypes ------------------------------ */
 Construct   construct;
 Destruct    destruct;
