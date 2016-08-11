@@ -17,7 +17,8 @@
 /* ------------------------ Global Variables -------------------------------- */
 
 // Number of threads to create
-#define NUM_THREADS 16
+#define NUM_THREADS     16
+#define MAX_SLEEP_TIME  10 // seconds
 
 // Global variable representing the PidManager
 PidManager pidManager;
@@ -38,15 +39,15 @@ void* acquireAndReleasePid(void *args);
 
 int main(int argc, const char * argv[]) {
     
-    int i;
-    int status;
-    pthread_t tids[NUM_THREADS];
+    int          i;
+    int          status;
+    pthread_t    tids[NUM_THREADS];
     unsigned int sleepTimes[NUM_THREADS];
     
     // Generate random times for each thread to sleep for
     for (i = 0; i < NUM_THREADS; i++)
     {
-        sleepTimes[i] = rand();
+        sleepTimes[i] = rand() % MAX_SLEEP_TIME;
     }
     
     // Allocate the PidManager
@@ -91,12 +92,14 @@ main_exit:
  */
 void* acquireAndReleasePid(void *args)
 {
+    unsigned int sleepTime;
+    int          pid;
+    
     // 1). sleep for random amount of time
-    unsigned int sleepTime = *((unsigned int *)args);
+    sleepTime = *((unsigned int *)args);
     sleep(sleepTime);
     
     // 2). acquire pid
-    int pid;
     allocate_pid(&pid);
     
     // 3). sleep for random amount of time
