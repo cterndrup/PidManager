@@ -138,7 +138,7 @@ void release_pid(int pid)
     status = pidManager.availablePids.enqueue(&pidManager.availablePids, pid);
     
     if (status != -1)
-        pidManager.numAvailablePids--;
+        pidManager.numAvailablePids++;
     
     // Release the lock
     status = pthread_mutex_unlock(&pidManager.lock);
